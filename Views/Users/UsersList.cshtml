@@ -1,0 +1,72 @@
+﻿@model UsersListVM
+@{
+    char[] letters = "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ".ToCharArray();
+
+}
+
+<div class="list-group list-group-horizontal-md d-flex justify-content-center mt-5">
+    @foreach (var item in letters)
+    {
+        @if (Model.FirstLetters.Contains(item))
+        {
+            <a class="list-group-item nav-link" asp-controller="Users"
+       asp-action="UsersList"
+       asp-route-page="1"
+       asp-route-firstLetter=@item style="color: blue">@item</a>
+        }
+        else
+        {
+            <div class="list-group-item" style="color:gray">@item</div>
+        }
+
+    }
+</div>
+
+
+<table class="table table-bordered table-striped mt-2">
+    <thead>
+        <tr>
+            <th>Имя</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td> <a class="nav-link" 
+                    asp-controller="Users"
+                    asp-action="UserDetails"
+                    asp-route-page=@Model.Pagination.Page
+                    asp-route-firstLetter=@Model.CurrentLetter
+                    asp-route-id=@item.Id>@item.FirstName @item.LastName</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Pagination.Page == 1)
+{
+    <button class="btn btn-secondary">Назад</button>
+}
+else
+{
+    <a class="btn btn-primary"
+   asp-controller="Users"
+   asp-action="UsersList"
+   asp-route-page=@Model.Pagination.PreviousPage
+   asp-route-firstLetter=@Model.CurrentLetter>Назад</a>
+}
+@if (Model.Pagination.Page != Model.Pagination.NextPage)
+{
+
+    <a class="btn btn-primary"
+   asp-controller="Users"
+   asp-action="UsersList"
+   asp-route-page=@Model.Pagination.NextPage
+   asp-route-firstLetter=@Model.CurrentLetter>Вперед</a>
+}
+else
+{
+
+    <button class="btn btn-secondary">Вперед</button>
+}

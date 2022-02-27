@@ -1,0 +1,22 @@
+﻿@model List<char>
+@{
+    char[] letters = "АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ".ToCharArray();
+}
+ 
+<div class="list-group list-group-horizontal-md d-flex mt-5">
+    @foreach (var item in letters)
+    {
+        @if (Model.Contains(item))
+        {
+            <a class="list-group-item nav-link" asp-controller="Users" 
+            asp-action="UsersList" 
+            asp-route-page="1" 
+            asp-route-firstLetter=@item style="color: blue;">@item</a>
+        }
+        else
+        {
+            <div class="list-group-item" style="color:gray">@item</div>
+        }
+        
+    }
+</div>
